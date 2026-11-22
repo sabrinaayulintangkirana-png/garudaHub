@@ -12,7 +12,9 @@ class ProjectController extends Controller
     // Menampilkan seluruh project
     public function index()
     {
-        $projects = Project::with('client')->latest()->get();
+        $projects = Project::with('client')
+            ->latest()
+            ->get();
 
         return view('projects.index', compact('projects'));
     }
@@ -48,10 +50,14 @@ class ProjectController extends Controller
             ->with('success', 'Project berhasil ditambahkan.');
     }
 
-    // Menampilkan detail project
+    // Menampilkan detail project beserta penawaran dan rating
     public function show(Project $project)
     {
-        $project->load(['client', 'bids.developer']);
+        $project->load([
+            'client',
+            'bids.developer',
+            'ratings',
+        ]);
 
         return view('projects.show', compact('project'));
     }

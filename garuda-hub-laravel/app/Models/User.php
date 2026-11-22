@@ -31,4 +31,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Bid::class, 'developer_id');
     }
+
+    public function ratingsGiven()
+    {
+        return $this->hasMany(Rating::class, 'client_id');
+    }
+
+    public function ratingsReceived()
+    {
+        return $this->hasMany(Rating::class, 'developer_id');
+    }
 }
