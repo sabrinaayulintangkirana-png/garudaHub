@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\DB;
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
-    {
-        $now = now();
+{
+    // Jangan memasukkan ulang data jika database sudah berisi pengguna.
+    if (DB::table('users')->exists()) {
+        return;
+    }
 
-        DB::table('bids')->delete();
-        DB::table('projects')->delete();
-        DB::table('users')->delete();
-
+    $now = now();
+       
         // 1. Data Users (8)
         DB::table('users')->insert([
             [
