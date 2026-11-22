@@ -1,3 +1,3 @@
 # Catatan Episode 3
 
-Status integrasi: Rating Developer sudah ditambahkan.
+Status integrasi: fitur Rating siap digabung ke main.
