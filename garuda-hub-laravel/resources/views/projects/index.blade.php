@@ -85,6 +85,15 @@
             cursor: pointer;
         }
 
+        .logout-button {
+            background: #dc2626;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
         .success {
             background: #dcfce7;
             color: #166534;
@@ -94,13 +103,30 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <h1>Garuda-Hub</h1>
-    <p class="subtitle">Daftar Project yang tersedia</p>
+    <!-- Header dan tombol Logout -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
 
+        <div>
+            <h1>Garuda-Hub</h1>
+            <p class="subtitle">Daftar Project yang tersedia</p>
+        </div>
+
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+
+            <button type="submit" class="logout-button">
+                Logout
+            </button>
+        </form>
+
+    </div>
+
+    <!-- Tombol navigasi -->
     <a href="{{ route('projects.create') }}" class="button">
         + Tambah Project
     </a>
@@ -109,12 +135,14 @@
         Lihat Penawaran
     </a>
 
+    <!-- Pesan sukses -->
     @if(session('success'))
         <div class="success">
             {{ session('success') }}
         </div>
     @endif
 
+    <!-- Tabel daftar project -->
     <table>
         <thead>
             <tr>
@@ -133,21 +161,29 @@
             @forelse($projects as $project)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
+
                     <td>{{ $project->judul }}</td>
+
                     <td>{{ $project->client->nama }}</td>
+
                     <td>{{ $project->kategori }}</td>
+
                     <td>
                         Rp{{ number_format($project->budget_min, 0, ',', '.') }}
                         -
                         Rp{{ number_format($project->budget_max, 0, ',', '.') }}
                     </td>
+
                     <td>{{ $project->batas_lelang }}</td>
+
                     <td>
                         <span class="badge {{ $project->status }}">
                             {{ ucfirst($project->status) }}
                         </span>
                     </td>
+
                     <td class="action">
+
                         <a href="{{ route('projects.show', $project->id) }}">
                             Detail
                         </a>
@@ -159,6 +195,7 @@
                         <form action="{{ route('projects.destroy', $project->id) }}"
                               method="POST"
                               style="display:inline;">
+
                             @csrf
                             @method('DELETE')
 
@@ -167,9 +204,12 @@
                                     onclick="return confirm('Yakin ingin menghapus project ini?')">
                                 Hapus
                             </button>
+
                         </form>
+
                     </td>
                 </tr>
+
             @empty
                 <tr>
                     <td colspan="8" style="text-align:center;">
